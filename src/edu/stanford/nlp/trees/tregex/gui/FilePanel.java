@@ -120,6 +120,7 @@ public class FilePanel extends JPanel {
           File[] sentenceList = new File[]{tempFile};
           loadFiles(new EnumMap<>(FilterType.class), sentenceList);
           sentence.setText("");
+        }
       }
     });
 
