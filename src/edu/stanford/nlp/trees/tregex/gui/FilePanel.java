@@ -34,6 +34,8 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.FocusEvent;
 import java.io.File;
 import java.util.*;
 
@@ -89,11 +91,31 @@ public class FilePanel extends JPanel {
       }
     });
 
+    JTextField sentence = new JTextField(150);
+    sentence.addFocusListener(new FocusListener() {
+      @Override
+      public void focusGained(FocusEvent fe) {}
+
+      @Override
+      public void focusLost(FocusEvent fe) {
+        if (sentence.getText().length() >=1) {
+          //JOptionPane.showMessageDialog(null, "You entered valid data");
+          //TODO Ajouter la phrase dans un fichier temporaire
+          sentence.setText("");
+        }else {
+          //JOptionPane.showMessageDialog(null, "You entered invalid data");
+          //sentence.grabFocus();
+        }
+      }
+    });
+
     //layout/panel stuff
     this.setLayout(new BorderLayout());
     this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(),"Tree files: "));
     JScrollPane scroller = new JScrollPane(tree);
     this.add(scroller, BorderLayout.CENTER);
+    this.add(sentence, BorderLayout.PAGE_START);
+
   }
 
 
@@ -120,6 +142,7 @@ public class FilePanel extends JPanel {
    * Removes all files from the panel
    */
   public void clearAll() {
+    //todo : supprimer fichier temporaire
     TreeReaderFactory oldTrf = treeModel.getTRF();//Preserve the current TRF when we refresh the tree file list
     FileTreeNode root = new FileTreeNode();
     treeModel = new FileTreeModel(root);
