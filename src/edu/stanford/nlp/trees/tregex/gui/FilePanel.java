@@ -36,7 +36,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 
@@ -45,6 +48,7 @@ import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 
 import edu.stanford.nlp.trees.TreeReaderFactory;
+import edu.stanford.nlp.trees.tregex.gui.TregexGUI.FilterType;
 
 
 /**
@@ -59,6 +63,7 @@ public class FilePanel extends JPanel {
   private static FilePanel filePanel = null;
   private JTree tree;
   private FileTreeModel treeModel;
+  private File tempFile;
 
   public static synchronized FilePanel getInstance() {
     if (filePanel == null) {
@@ -68,6 +73,12 @@ public class FilePanel extends JPanel {
   }
 
   private FilePanel() {
+    //Temporary File
+    try {
+      tempFile = File.createTempFile("tregex", "temp");
+      tempFile.deleteOnExit();
+    } catch (IOException e) { e.printStackTrace(); }
+
     //data stuff
     FileTreeNode root = new FileTreeNode();
     treeModel = new FileTreeModel(root);
@@ -99,13 +110,16 @@ public class FilePanel extends JPanel {
       @Override
       public void focusLost(FocusEvent fe) {
         if (sentence.getText().length() >=1) {
-          //JOptionPane.showMessageDialog(null, "You entered valid data");
-          //TODO Ajouter la phrase dans un fichier temporaire
+          try {
+            FileWriter w = new FileWriter(tempFile.getAbsoluteFile());
+            BufferedWriter bw = new BufferedWriter(w);
+            bw.write(sentence.getText());
+            bw.close();
+          }
+          catch (IOException e) { e.printStackTrace(); }
+          File[] sentenceList = new File[]{tempFile};
+          loadFiles(new EnumMap<>(FilterType.class), sentenceList);
           sentence.setText("");
-        }else {
-          //JOptionPane.showMessageDialog(null, "You entered invalid data");
-          //sentence.grabFocus();
-        }
       }
     });
 
