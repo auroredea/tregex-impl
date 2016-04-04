@@ -2,6 +2,6 @@ Semgrex.ppt
 build/*
 classes/*
 old_jar/*
-stanford-tregex-2015-12-09.iml
+*.iml
 .idea/*
 tregex.jar
