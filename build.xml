@@ -14,7 +14,7 @@
   <property name="docs.home"     value="${basedir}/docs"/>
   <property name="src.home"      value="${basedir}/src"/>
   <property name="javadoc.home"  value="${basedir}/javadoc"/>
-    <property name="jar.home"      value="${basedir}/build"/>
+  <property name="jar.home"      value="${basedir}/build"/>
 
 <!--  ==================== Compilation Control Options ==================== -->
 
@@ -68,8 +68,8 @@
 -->
 
   <target name="clean" description="Delete old classes">
-		<delete dir="${build.home}/edu"/>
-		<delete file="${jar.home}/tregex.jar"/>
+    <delete dir="${build.home}/edu"/>
+    <delete file="${jar.home}/tregex.jar"/>
   </target>
 
 
@@ -91,7 +91,7 @@
       </path>
   </target>
 
-  
+
 
 
 
@@ -117,7 +117,7 @@
          encoding="utf-8" 
       deprecation="${compile.deprecation}"
          optimize="${compile.optimize}"
-	   source="${compile.source}"
+     source="${compile.source}"
            target="${compile.target}">
         <classpath refid="compile.classpath"/>
       <compilerarg value="-Xmaxerrs"/>
@@ -146,13 +146,13 @@
 -->
 
 <target name="jar">
-	<jar destfile="${jar.home}/tregex.jar"
-		basedir="${build.home}">
-	<manifest>
-		<attribute name="Main-Class" value=" edu.stanford.nlp.trees.tregex.gui.TregexGUI"/>
-		<attribute name="Class-Path" value="../lib"/>
-	</manifest>
-	</jar>
+  <jar destfile="${jar.home}/tregex.jar"
+    basedir="${build.home}">
+  <manifest>
+    <attribute name="Main-Class" value=" edu.stanford.nlp.trees.tregex.gui.TregexGUI"/>
+    <attribute name="Class-Path" value="${basedir}/lib/slf4j-api.jar ${basedir}/lib/slf4j-simple.jar"/>
+  </manifest>
+  </jar>
 </target>
 
 
