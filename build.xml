@@ -14,7 +14,7 @@
   <property name="docs.home"     value="${basedir}/docs"/>
   <property name="src.home"      value="${basedir}/src"/>
   <property name="javadoc.home"  value="${basedir}/javadoc"/>
-  <property name="jar.home"      value="${basedir}/build"/>
+  <property name="jar.home"      value="${basedir}"/>
 
 <!--  ==================== Compilation Control Options ==================== -->
 
@@ -150,7 +150,7 @@
     basedir="${build.home}">
   <manifest>
     <attribute name="Main-Class" value=" edu.stanford.nlp.trees.tregex.gui.TregexGUI"/>
-    <attribute name="Class-Path" value="${basedir}/lib/slf4j-api.jar ${basedir}/lib/slf4j-simple.jar"/>
+    <attribute name="Class-Path" value="./lib/slf4j-api.jar ./lib/slf4j-simple.jar"/>
   </manifest>
   </jar>
 </target>
