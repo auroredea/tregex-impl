@@ -150,7 +150,7 @@
     basedir="${build.home}">
   <manifest>
     <attribute name="Main-Class" value=" edu.stanford.nlp.trees.tregex.gui.TregexGUI"/>
-    <attribute name="Class-Path" value="./lib/slf4j-api.jar ./lib/slf4j-simple.jar"/>
+    <attribute name="Class-Path" value="./lib/slf4j-api.jar ./lib/slf4j-simple.jar ./lib/stanford-parser.jar ./lib/stanford-parser-3.6.0-models.jar"/>
   </manifest>
   </jar>
 </target>

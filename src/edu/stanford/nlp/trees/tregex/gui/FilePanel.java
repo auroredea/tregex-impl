@@ -36,10 +36,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.FocusEvent;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.*;
 
 
@@ -47,9 +44,11 @@ import javax.swing.*;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
 
+import edu.stanford.nlp.trees.Tree;
+import edu.stanford.nlp.trees.TreePrint;
 import edu.stanford.nlp.trees.TreeReaderFactory;
-import edu.stanford.nlp.trees.tregex.gui.TregexGUI.FilterType;
 
+import edu.stanford.nlp.parser.lexparser.LexicalizedParser;
 
 /**
  * Class representing the hierarchy of files in which trees may be searched and
@@ -63,7 +62,7 @@ public class FilePanel extends JPanel {
   private static FilePanel filePanel = null;
   private JTree tree;
   private FileTreeModel treeModel;
-  private File tempFile;
+  private File tempParseFile;
 
   public static synchronized FilePanel getInstance() {
     if (filePanel == null) {
@@ -75,8 +74,8 @@ public class FilePanel extends JPanel {
   private FilePanel() {
     //Temporary File
     try {
-      tempFile = File.createTempFile("tregex", "temp");
-      tempFile.deleteOnExit();
+      tempParseFile = File.createTempFile("tregex", "t");
+      tempParseFile.deleteOnExit();
     } catch (IOException e) { e.printStackTrace(); }
 
     //data stuff
@@ -111,14 +110,18 @@ public class FilePanel extends JPanel {
       public void focusLost(FocusEvent fe) {
         if (sentence.getText().length() >=1) {
           try {
-            FileWriter w = new FileWriter(tempFile.getAbsoluteFile());
-            BufferedWriter bw = new BufferedWriter(w);
-            bw.write(sentence.getText());
-            bw.close();
+            String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
+            LexicalizedParser lp = LexicalizedParser.loadModel(parserModel);
+            Tree parse = lp.parse(sentence.getText());
+            TreePrint tp = new TreePrint("oneline");
+            PrintWriter p = new PrintWriter(tempParseFile);
+            tp.printTree(parse, p);
+            p.close();
           }
           catch (IOException e) { e.printStackTrace(); }
-          File[] sentenceList = new File[]{tempFile};
-          loadFiles(new EnumMap<>(FilterType.class), sentenceList);
+
+          File[] sentenceList = new File[]{tempParseFile};
+          loadFiles(new EnumMap<>(TregexGUI.FilterType.class), sentenceList);
           sentence.setText("");
         }
       }
@@ -157,7 +160,6 @@ public class FilePanel extends JPanel {
    * Removes all files from the panel
    */
   public void clearAll() {
-    //todo : supprimer fichier temporaire
     TreeReaderFactory oldTrf = treeModel.getTRF();//Preserve the current TRF when we refresh the tree file list
     FileTreeNode root = new FileTreeNode();
     treeModel = new FileTreeModel(root);
