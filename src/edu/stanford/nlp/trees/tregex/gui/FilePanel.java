@@ -30,14 +30,11 @@
 
 package edu.stanford.nlp.trees.tregex.gui;
 
-import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.FocusListener;
-import java.awt.event.FocusEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import java.util.List;
 
 
 import javax.swing.*;
@@ -102,13 +99,12 @@ public class FilePanel extends JPanel {
     });
 
     JTextField sentence = new JTextField(150);
-    sentence.addFocusListener(new FocusListener() {
-      @Override
-      public void focusGained(FocusEvent fe) {}
+    JButton sentenceAdd = new JButton("Add");
 
+    sentenceAdd.addActionListener(new ActionListener() {
       @Override
-      public void focusLost(FocusEvent fe) {
-        if (sentence.getText().length() >=1) {
+      public void actionPerformed(ActionEvent e) {
+        if(sentence.getText().length() >= 2) {
           try {
             String parserModel = "edu/stanford/nlp/models/lexparser/englishPCFG.ser.gz";
             LexicalizedParser lp = LexicalizedParser.loadModel(parserModel);
@@ -118,7 +114,7 @@ public class FilePanel extends JPanel {
             tp.printTree(parse, p);
             p.close();
           }
-          catch (IOException e) { e.printStackTrace(); }
+          catch (IOException ex) { ex.printStackTrace(); }
 
           File[] sentenceList = new File[]{tempParseFile};
           loadFiles(new EnumMap<>(TregexGUI.FilterType.class), sentenceList);
@@ -128,11 +124,37 @@ public class FilePanel extends JPanel {
     });
 
     //layout/panel stuff
-    this.setLayout(new BorderLayout());
+    GridBagConstraints gbc = new GridBagConstraints();
+    //card.setBorder(BorderFactory.createTitledBorder("Text auto-parsing :"));
+
+    this.setLayout(new GridBagLayout());
+    gbc.fill = GridBagConstraints.BOTH;
+    gbc.gridx = 0;
+    gbc.gridy = 0;
+    this.add(sentence, gbc);
+    sentence.setMinimumSize(new Dimension(260,24));
+
+    gbc.gridx = GridBagConstraints.RELATIVE;
+    gbc.gridwidth = GridBagConstraints.REMAINDER;
+    this.add(sentenceAdd, gbc);
+
+    gbc.gridy = 1;
+    gbc.gridheight = GridBagConstraints.REMAINDER;
+    JScrollPane scroller = new JScrollPane(tree);
+    scroller.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(),"Tree files: "));
+    scroller.setMinimumSize(new Dimension(300, 330));
+    this.add(scroller);
+
+
+
+    /*JScrollPane scroller = new JScrollPane(tree);
+    this.add(scroller, BorderLayout.CENTER);*/
+   /* this.setLayout(new BorderLayout());
     this.setBorder(BorderFactory.createTitledBorder(BorderFactory.createEmptyBorder(),"Tree files: "));
     JScrollPane scroller = new JScrollPane(tree);
-    this.add(scroller, BorderLayout.CENTER);
-    this.add(sentence, BorderLayout.PAGE_START);
+    this.add(sentence, BorderLayout.LINE_START);
+    this.add(sentenceAdd, BorderLayout.CENTER);
+    this.add(scroller, BorderLayout.PAGE_END);*/
 
   }
 
