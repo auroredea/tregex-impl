@@ -5,3 +5,4 @@ old_jar/*
 *.iml
 .idea/*
 tregex.jar
+lib/stanford*
