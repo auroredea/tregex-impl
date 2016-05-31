@@ -1,0 +1,4 @@
+(ROOT (SBAR (WHADVP (WRB when)) (S (NP (PRP$ your) (NN nigga)) (VP (VBZ 's) (VP (VBN got) (SBAR (IN that) (S (NP (JJ evil) (NN ass)) (VP (VBP smile) (SBAR (IN that) (S (VP (MD can) (VP (VB scare) (NP (DT the) (NNS pants)) (PRT (RP off)) (PP (IN of) (NP (DT any) (NN punk) (NN ass) (NN bitch))))) (: -)))))))))))
+(ROOT (FRAG (ADVP (RB always)) (PP (PP (IN with) (NP (NP (PRP you)) (PP (IN with) (NP (NNP PTI))))) (CC and) (PP (IN with) (NP (NP (PRP$ our) (NN captan)) (PP (IN from) (NP (NP (NNP KPK)) (PP (TO to) (NP (NNP Karachi))))))))))
+(ROOT (FRAG (FRAG (NP (NNP Mon) (NNP Apr)) (NP (NP (CD 27) (CD 2015)) (NP (NP (CD 13:33:53) (NNP GMT) (CD +0000)) (PRN (-LRB- -LRB-) (NP (NNP UTC)) (-RRB- -RRB-))))) (: -) (FRAG (NP (NP (NNP Modis) (NNP Flood) (NNP Map) (NNP Server) (NNP processed)) (NP (JJ 2-day) (JJ composite) (NN Tile))) (: :) (NP (NP (CD 070E040N) (NN Date)) (: :) (NP (CD 2015-117))))))
+
